@@ -145,7 +145,7 @@ namespace parking_lot_service_test
             };
             var ParkingLot = GenerateParkingLot(1);
             parkOperationService.Enter(_car);
-            var _carLeave = (IPark)parkOperationService.Leave(_car);
+            var _carLeave = (IPark)parkOperationService.Leave(1);
 
 
             Assert.IsTrue(ParkingLot[0].IsAvailable);
@@ -163,7 +163,7 @@ namespace parking_lot_service_test
             };
             var ParkingLot = GenerateParkingLot(1);
             parkOperationService.Enter(_car);
-            var _carLeave = (IPark)parkOperationService.Leave(_car);
+            var _carLeave = (IPark)parkOperationService.Leave(1);
 
 
             Assert.IsNull(_carLeave);

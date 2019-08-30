@@ -8,6 +8,10 @@ namespace parking_lot_services.Implementation
     public class ParkOperation : IParkOperation
     {
         private IList<IPark> ParkingLot { get; set; }
+        public ParkOperation()
+        {
+            ParkingLot = new List<IPark>();
+        }
         public void CreateParkingLot(int lotCount)
         {
             if (lotCount < 1)
@@ -26,13 +30,21 @@ namespace parking_lot_services.Implementation
 
         public IList<IPark> GetParkingLot()
         {
-            return ParkingLot;
+            var result = new List<IPark>();
+            for (var i = 0; i < ParkingLot.Count; i++)
+            {
+                if (!ParkingLot[i].IsAvailable)
+                {
+                    result.Add(ParkingLot[i]);
+                }
+            }
+            return result;
         }
 
         public IList<string> GetPlateNumbersByColour(string colour)
         {
             var result = new List<string>();
-            for (var i = 1; i <= ParkingLot.Count; i++)
+            for (var i = 0; i < ParkingLot.Count; i++)
             {
                 if (ParkingLot[i].Car.Colour == colour)
                 {
@@ -45,7 +57,7 @@ namespace parking_lot_services.Implementation
         public int GetSlotNumberByPlateNumber(string plateNumber)
         {
             var result = 0;
-            for (var i = 1; i <= ParkingLot.Count; i++)
+            for (var i = 0; i < ParkingLot.Count; i++)
             {
                 if (ParkingLot[i].Car.PlateNumber == plateNumber)
                 {
@@ -59,7 +71,7 @@ namespace parking_lot_services.Implementation
         public IList<int> GetSlotNumbersByColours(string colour)
         {
             var result = new List<int>();
-            for (var i = 1; i <= ParkingLot.Count; i++)
+            for (var i = 0; i < ParkingLot.Count; i++)
             {
                 if (ParkingLot[i].Car.Colour == colour)
                 {
@@ -69,12 +81,11 @@ namespace parking_lot_services.Implementation
             return result;
         }
 
-        public IPark Leave(ICar car)
+        public IPark Leave(int slotNumber)
         {
-            for (var i = 1; i <= ParkingLot.Count; i++)
+            for (var i = 0; i < ParkingLot.Count; i++)
             {
-                if (ParkingLot[i].Car.PlateNumber == car.PlateNumber &&
-                    ParkingLot[i].Car.Colour == car.Colour)
+                if (ParkingLot[i].SlotNumber == slotNumber)
                 {
                     ParkingLot[i].CarOut();
                     return ParkingLot[i];
@@ -85,7 +96,7 @@ namespace parking_lot_services.Implementation
 
         public IPark Enter(ICar car)
         {
-            for (var i = 1; i <= ParkingLot.Count; i++)
+            for (var i = 0; i < ParkingLot.Count; i++)
             {
                 if (ParkingLot[i].IsAvailable)
                 {

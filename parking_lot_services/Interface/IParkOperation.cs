@@ -8,7 +8,7 @@ namespace parking_lot_services.Interface
     {
         void CreateParkingLot(int lotCount);
         IPark Enter(ICar car);
-        IPark Leave(ICar car);
+        IPark Leave(int slotNumber);
         IList<IPark> GetParkingLot();
         IList<string> GetPlateNumbersByColour(string colour);
         int GetSlotNumberByPlateNumber(string plateNumber);
