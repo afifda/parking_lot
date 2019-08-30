@@ -16,7 +16,7 @@ namespace parking_lot_services.Implementation
         {
             if (lotCount < 1)
             {
-                throw new ArgumentOutOfRangeException("Slot Number", "Slot Number must be greater than zero");
+                throw new ArgumentException("Slot Number", "Slot Number must be greater than zero");
             }
             for (var i = 1; i <= lotCount; i++)
             {
@@ -85,7 +85,8 @@ namespace parking_lot_services.Implementation
         {
             for (var i = 0; i < ParkingLot.Count; i++)
             {
-                if (ParkingLot[i].SlotNumber == slotNumber)
+                if (ParkingLot[i].SlotNumber == slotNumber &&
+                    !ParkingLot[i].IsAvailable)
                 {
                     ParkingLot[i].CarOut();
                     return ParkingLot[i];

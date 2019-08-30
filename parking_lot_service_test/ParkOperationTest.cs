@@ -37,7 +37,13 @@ namespace parking_lot_service_test
         [TestMethod]
         public void GetParkingLot_ValidCall_ParkingLotStatusReturned()
         {
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "Black"
+            };
             var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
             var result = (IList<IPark>)parkOperationService.GetParkingLot();
 
             Assert.AreEqual(1, result.Count);
@@ -60,7 +66,7 @@ namespace parking_lot_service_test
         }
 
         [TestMethod]
-        public void GetPlateNumbersByColour_ColourNotExists_NullsReturned()
+        public void GetPlateNumbersByColour_ColourNotExists_NoRecordReturned()
         {
             var _car = new Car()
             {
@@ -71,7 +77,7 @@ namespace parking_lot_service_test
             parkOperationService.Enter(_car);
             var plateNumbers = (IList<string>)parkOperationService.GetPlateNumbersByColour("White");
 
-            Assert.IsNull(plateNumbers);
+            Assert.AreEqual(0, plateNumbers.Count);
         }
 
         [TestMethod]
@@ -90,7 +96,7 @@ namespace parking_lot_service_test
         }
 
         [TestMethod]
-        public void GetSlotNumberByPlateNumber_PlateNumberNotExists_NullsReturned()
+        public void GetSlotNumberByPlateNumber_PlateNumberNotExists_NoRecordReturned()
         {
             var _car = new Car()
             {
@@ -121,7 +127,7 @@ namespace parking_lot_service_test
         }
 
         [TestMethod]
-        public void GetSlotNumbersByColours_ColoursNotExists_NullsReturned()
+        public void GetSlotNumbersByColours_ColoursNotExists_NoRecordReturned()
         {
             var _car = new Car()
             {
@@ -132,7 +138,7 @@ namespace parking_lot_service_test
             parkOperationService.Enter(_car);
             var slotNumbers = (IList<int>)parkOperationService.GetSlotNumbersByColours("White");
 
-            Assert.IsNull(slotNumbers);
+            Assert.AreEqual(0, slotNumbers.Count);
         }
 
         [TestMethod]
@@ -147,24 +153,14 @@ namespace parking_lot_service_test
             parkOperationService.Enter(_car);
             var _carLeave = (IPark)parkOperationService.Leave(1);
 
-
             Assert.IsTrue(ParkingLot[0].IsAvailable);
-            Assert.AreEqual(_carLeave.Car.PlateNumber, ParkingLot[0].Car.PlateNumber);
-            Assert.AreEqual(_carLeave.Car.Colour, ParkingLot[0].Car.Colour);
         }
 
         [TestMethod]
-        public void Leave_CarNotExists_NullsReturned()
+        public void Leave_CarNotExists_NullReturned()
         {
-            var _car = new Car()
-            {
-                PlateNumber = "XX-12345-ABC",
-                Colour = "White"
-            };
             var ParkingLot = GenerateParkingLot(1);
-            parkOperationService.Enter(_car);
             var _carLeave = (IPark)parkOperationService.Leave(1);
-
 
             Assert.IsNull(_carLeave);
         }
@@ -207,7 +203,7 @@ namespace parking_lot_service_test
 
         private IList<IPark> GenerateParkingLot(int slotCount)
         {
-            parkOperationService.CreateParkingLot(1);
+            parkOperationService.CreateParkingLot(slotCount);
             var ParkingLot = (IList<IPark>)privateObject.GetFieldOrProperty("ParkingLot");
             return ParkingLot;
         }
