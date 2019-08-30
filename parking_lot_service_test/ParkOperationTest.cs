@@ -46,49 +46,127 @@ namespace parking_lot_service_test
         [TestMethod]
         public void GetPlateNumbersByColour_ColourExists_PlateNumbersReturned()
         {
-            throw new NotImplementedException();
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "Black"
+            };
+            var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
+            var plateNumbers = (IList<string>)parkOperationService.GetPlateNumbersByColour("Black");
+
+            Assert.IsNotNull(plateNumbers);
+            Assert.AreEqual(1, plateNumbers.Count);
         }
 
         [TestMethod]
         public void GetPlateNumbersByColour_ColourNotExists_NullsReturned()
         {
-            throw new NotImplementedException();
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "Black"
+            };
+            var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
+            var plateNumbers = (IList<string>)parkOperationService.GetPlateNumbersByColour("White");
+
+            Assert.IsNull(plateNumbers);
         }
 
         [TestMethod]
         public void GetSlotNumberByPlateNumber_PlateNumberExists_SlotNumberReturned()
         {
-            throw new NotImplementedException();
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "Black"
+            };
+            var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
+            var slotNumber = (int)parkOperationService.GetSlotNumberByPlateNumber("XX-12345-ABC");
+
+            Assert.AreEqual(1, slotNumber);
         }
 
         [TestMethod]
         public void GetSlotNumberByPlateNumber_PlateNumberNotExists_NullsReturned()
         {
-            throw new NotImplementedException();
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "Black"
+            };
+            var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
+            var slotNumber = (int)parkOperationService.GetSlotNumberByPlateNumber("XX-12345-XYZ");
+
+            Assert.AreEqual(0, slotNumber);
         }
 
         [TestMethod]
         public void GetSlotNumbersByColours_ColoursExists_SlotNumbersReturned()
         {
-            throw new NotImplementedException();
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "Black"
+            };
+            var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
+            var slotNumbers = (IList<int>)parkOperationService.GetSlotNumbersByColours("Black");
+
+            Assert.IsNotNull(slotNumbers);
+            Assert.AreEqual(1, slotNumbers.Count);
         }
 
         [TestMethod]
         public void GetSlotNumbersByColours_ColoursNotExists_NullsReturned()
         {
-            throw new NotImplementedException();
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "Black"
+            };
+            var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
+            var slotNumbers = (IList<int>)parkOperationService.GetSlotNumbersByColours("White");
+
+            Assert.IsNull(slotNumbers);
         }
 
         [TestMethod]
         public void Leave_CarExists_StatusReturned()
         {
-            throw new NotImplementedException();
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "Black"
+            };
+            var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
+            var _carLeave = (IPark)parkOperationService.Leave(_car);
+
+
+            Assert.IsTrue(ParkingLot[0].IsAvailable);
+            Assert.AreEqual(_carLeave.Car.PlateNumber, ParkingLot[0].Car.PlateNumber);
+            Assert.AreEqual(_carLeave.Car.Colour, ParkingLot[0].Car.Colour);
         }
 
         [TestMethod]
         public void Leave_CarNotExists_NullsReturned()
         {
-            throw new NotImplementedException();
+            var _car = new Car()
+            {
+                PlateNumber = "XX-12345-ABC",
+                Colour = "White"
+            };
+            var ParkingLot = GenerateParkingLot(1);
+            parkOperationService.Enter(_car);
+            var _carLeave = (IPark)parkOperationService.Leave(_car);
+
+
+            Assert.IsNull(_carLeave);
         }
 
         [TestMethod]
