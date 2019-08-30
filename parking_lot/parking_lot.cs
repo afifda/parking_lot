@@ -76,6 +76,9 @@ namespace parking_lot_app
                 case Constants.SLOT_NUMBER_FOR_REGISTRATION_NUMBER:
                     SlotNumberForRegistrationNumber(splittedCommands);
                     break;
+                default:
+                    Console.WriteLine("Command was not recognized. Please enter valid command.");
+                    break;
 
             }
         }
